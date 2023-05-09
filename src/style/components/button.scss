@@ -1,0 +1,33 @@
+@use "../variables/colors";
+@use "../utilities/mixins.scss";
+
+.btn {
+    @include mixins.flexbox($gap: 0.5rem, $items: center, $justify: center);
+
+    color: colors.$neutral-light;
+    text-transform: capitalize;
+
+    user-select: none;
+    cursor: pointer;
+
+    padding: 0.5rem 3rem;
+    border: none;
+
+    &__primary {
+        @include mixins.glass(colors.$primary-200, 0.25);
+    }
+
+    &__secondary {
+        @include mixins.glass(colors.$primary-300, 0.2);
+    }
+
+    &__success {
+        @include mixins.glass(colors.$success, 0.75);
+    }
+
+    &--icon-only {
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        padding: 0;
+    }
+}

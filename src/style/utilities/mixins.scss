@@ -1,0 +1,23 @@
+@use "sass:color";
+
+@mixin glass($color, $alpha, $blur: 8px) {
+    background-color: color.change($color: $color, $alpha: $alpha);
+    backdrop-filter: blur($blur);
+}
+
+@mixin flexbox($direction: row, $items: null, $justify: null, $gap: null) {
+    display: flex;
+    flex-direction: $direction;
+
+    @if $items {
+        align-items: $items;
+    }
+
+    @if $justify {
+        justify-content: $justify;
+    }
+
+    @if $gap {
+        gap: $gap;
+    }
+}
