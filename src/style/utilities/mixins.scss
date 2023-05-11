@@ -1,4 +1,6 @@
 @use "sass:color";
+@use "sass:map";
+@use "../variables/breakpoints";
 
 @mixin glass($color, $alpha, $blur: 8px) {
     background-color: color.change($color: $color, $alpha: $alpha);
@@ -19,5 +21,17 @@
 
     @if $gap {
         gap: $gap;
+    }
+}
+
+$breakpoint-map: (
+    "medium": breakpoints.$medium,
+    "large": breakpoints.$large,
+    "extra-large": breakpoints.$extra-large,
+);
+
+@mixin media($breakpoint: "medium") {
+    @media screen and (min-width: map.get($breakpoint-map, #{$breakpoint})) {
+        @content;
     }
 }
