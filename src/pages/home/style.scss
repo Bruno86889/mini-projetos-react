@@ -1,0 +1,36 @@
+@use "sass:color";
+@use "/src/style/variables/font";
+@use "/src/style/variables/colors";
+@use "/src/style/utilities/mixins.scss";
+
+.projects {
+    @include mixins.flexbox($direction: column, $gap: 2rem);
+    width: 100%;
+    padding: 2rem 10%;
+
+    h1 {
+        font-size: font.$extra-large;
+    }
+}
+
+.project-list {
+    width: 100%;
+    display: grid;
+    justify-content: space-evenly;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 360px));
+    gap: 1.5rem;
+    background-color: colors.$gray-200;
+    padding: 1rem;
+
+    @include mixins.media($breakpoint: "medium") {
+        & {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @include mixins.media($breakpoint: "large") {
+        & {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+}
