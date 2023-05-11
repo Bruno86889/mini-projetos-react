@@ -1,0 +1,38 @@
+@use "/src/style/variables/colors";
+@use "/src/style/variables/font";
+@use "/src/style/utilities/mixins.scss";
+
+.project-card {
+    @include mixins.flexbox($direction: column);
+    width: 100%;
+    height: max-content;
+
+    &__body {
+        @include mixins.flexbox($direction: column, $gap: 8px);
+        @include mixins.glass(colors.$primary-300, 0.25);
+        padding: 16px 16px 24px 16px;
+
+        h1 {
+            font-size: font.$large;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: font.$small;
+        }
+    }
+
+    &__actions {
+        @include mixins.flexbox($gap: 1rem, $justify: center);
+        width: 100%;
+        height: 40px;
+
+        padding: 0 1rem;
+
+        transform: translateY(-50%);
+
+        .btn:first-child {
+            width: 60%;
+        }
+    }
+}
