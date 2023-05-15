@@ -1,13 +1,13 @@
-import ProjectExample from "@/projects/exemplo";
+import RandomColor from "@/projects/random-color";
 
 export default [
     {
-        name: "Exemplo de projeto",
-        description: "Um exemplo de como será mostrado um projeto.",
-        foldername: "exemplo",
+        name: "Cor aleatória",
+        description: "Gera uma cor aleatória toda vez que o botão é clicado.",
+        foldername: "random-color",
         route: {
-            path: "exemplo",
-            element: <ProjectExample />,
+            path: "cor-aleatoria",
+            element: <RandomColor />,
         },
     },
 ];

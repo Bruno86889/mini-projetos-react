@@ -1,7 +1,0 @@
-@use "/src/style/variables/colors";
-@use "/src/style/utilities/mixins.scss";
-
-.example {
-    @include mixins.flexbox($items: center, $justify: center);
-    background-color: colors.$gray-200;
-}
