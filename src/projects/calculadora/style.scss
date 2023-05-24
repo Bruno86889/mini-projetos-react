@@ -1,0 +1,74 @@
+@use "/src/style/variables/colors";
+@use "/src/style/variables/font";
+@use "/src/style/utilities/mixins.scss";
+@use "/src/style/variables/breakpoints";
+@use "sass:color";
+
+.calculator {
+    $btn-width: 64px;
+    $gap: 16px;
+    @include mixins.flexbox($items: center, $justify: center);
+
+    .app {
+        @include mixins.flexbox($direction: column, $items: center, $gap: $gap);
+        height: max-content;
+        padding: $gap;
+        background-color: colors.$gray-300;
+        border-radius: 16px;
+    }
+
+    &__display {
+        width: 100%;
+        height: calc($btn-width * 3);
+        color: colors.$primary-100;
+        background-color: colors.$gray-200;
+        padding: $gap;
+
+        .main,
+        .sub {
+            @include mixins.flexbox($justify: flex-end, $items: flex-end);
+            height: 50%;
+        }
+
+        .main {
+            font-size: 1.25rem;
+            align-items: center;
+        }
+
+        .sub {
+            font-size: font.$large;
+        }
+    }
+
+    &__keyboard {
+        display: grid;
+        grid-template-columns: repeat(4, $btn-width);
+        gap: $gap;
+    }
+
+    &__btn {
+        padding: 0;
+        aspect-ratio: 1 / 1;
+        color: colors.$primary-200;
+        background-color: colors.$gray-200;
+        border-radius: 8px;
+        position: relative;
+
+        &:active {
+            transform: scale(0.9);
+        }
+
+        &--equal {
+            aspect-ratio: inherit;
+            background-color: colors.$primary-200;
+            color: white;
+            grid-column: 4;
+            grid-row: 4 / 6;
+        }
+
+        &--zero {
+            aspect-ratio: inherit;
+            grid-column: 1 / 3;
+        }
+    }
+}
