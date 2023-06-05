@@ -1,4 +1,5 @@
 import Calculator from "@/projects/calculadora";
+import ColorPickerPage from "@/projects/color-picker";
 import RandomColor from "@/projects/random-color";
 
 export default [
@@ -18,6 +19,15 @@ export default [
         route: {
             path: "calculadora",
             element: <Calculator />,
+        },
+    },
+    {
+        name: "ColorPicker",
+        description: "Um seletor de cores simples para selecionar cores.",
+        foldername: "color-picker",
+        route: {
+            path: "color-picker",
+            element: <ColorPickerPage />,
         },
     },
 ];

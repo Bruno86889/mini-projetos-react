@@ -1,0 +1,115 @@
+@use "/src/style/utilities/mixins.scss";
+@use "/src/style/variables/colors";
+@use "/src/style/variables/font";
+
+$red: #ff0000;
+$yellow: #ffff00;
+$green: #00ff00;
+$cyan: #00ffff;
+$blue: #0000ff;
+$magenta: #ff00ff;
+
+body {
+    overscroll-behavior: none;
+}
+
+.container {
+    @include mixins.flexbox(
+        $direction: column,
+        $items: center,
+        $justify: center
+    );
+}
+
+.color_picker {
+    @include mixins.flexbox($direction: column, $gap: 16px);
+    width: 300px;
+    background-color: colors.$gray-300;
+    padding: 16px;
+
+    p {
+        word-break: break-all;
+    }
+
+    &__bullet {
+        aspect-ratio: 1 / 1;
+        width: 16px;
+        cursor: pointer;
+        background-color: transparent;
+        border-radius: 25%;
+        border: 2px solid white;
+        position: absolute;
+        box-shadow: 0 0 1px black;
+        transform: translate(-50%, -50%);
+        top: 50%;
+    }
+
+    &__controls {
+        @include mixins.flexbox($direction: column, $gap: 12px);
+    }
+
+    &__board {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        background: linear-gradient(to bottom, transparent, black),
+            linear-gradient(to right, white, transparent), $magenta;
+        position: relative;
+        padding: 16px;
+    }
+
+    &__slider {
+        @include mixins.flexbox($direction: column);
+        cursor: pointer;
+        height: 12px;
+        border-radius: 8px;
+        width: 100%;
+        background: linear-gradient(
+            to right,
+            $red,
+            $yellow,
+            $green,
+            $cyan,
+            $blue,
+            $magenta,
+            $red
+        );
+    }
+
+    &__info {
+        @include mixins.flexbox($gap: 8px);
+        width: 100%;
+        font-size: font.$small;
+        text-transform: uppercase;
+
+        .channels {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+        }
+    }
+
+    &__entry {
+        @include mixins.flexbox($direction: column, $items: center);
+
+        input {
+            width: 100%;
+            text-align: center;
+            padding: 4px 8px;
+            color: white;
+            appearance: none;
+            background-color: colors.$gray-200;
+            border: 1px solid colors.$gray-100;
+            outline: none;
+
+            &:not(:disabled):focus {
+                outline: 1px solid white;
+            }
+        }
+
+        span {
+            color: colors.$gray-100;
+            user-select: none;
+        }
+    }
+}
