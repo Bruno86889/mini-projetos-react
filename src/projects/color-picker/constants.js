@@ -1,0 +1,5 @@
+const MAX_HUE = 360;
+const MAX_SATURATION = 100;
+const MAX_VALUE = 100;
+
+export { MAX_HUE, MAX_SATURATION, MAX_VALUE };
