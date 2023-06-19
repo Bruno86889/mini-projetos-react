@@ -1,45 +1,28 @@
-function generateRandomHSLColor() {
+const randomHSVcolor = () => {
     const randomValue = (max) => Math.round(Math.random() * max);
     const h = randomValue(360);
     const s = randomValue(100);
-    const l = randomValue(100);
+    const v = randomValue(100);
 
-    return { h, s, l };
-}
+    return { h, s, v };
+};
 
-function convertHSLToRGB({ h, s, l }) {
-    // https://en.wikipedia.org/wiki/HSL_and_HSV
+const checkContrast = (hsvColor) => {
+    const { h = 0, v = 0 } = hsvColor;
 
-    const { min, max } = Math;
+    const BLACK = "#000";
+    const WHITE = "#FFF";
 
-    const light = l / 100;
-    const saturation = s / 100;
+    let contrast = WHITE;
 
-    const a = saturation * min(light, 1 - light);
-    let k = (n) => (n + h / 30) % 12;
+    // check if the hue is in yellow, green or cyan range
+    const isHueALightColor = h >= 50 && h <= 200;
+    const isValueLow = v <= 70;
 
-    if (k < 0) k = 0;
+    if (isHueALightColor) contrast = BLACK;
+    if (isHueALightColor && isValueLow) contrast = WHITE;
 
-    const fn = (n) => light - a * max(-1, min(k(n) - 3, min(9 - k(n), 1)));
+    return contrast;
+};
 
-    const calculate = (n) => Math.floor(fn(n) * 255);
-    const r = calculate(0);
-    const g = calculate(8);
-    const b = calculate(4);
-
-    return { r, g, b };
-}
-
-function convertRGBToHexadecimal({ r, g, b }) {
-    const fn = (color) => {
-        let hex = color.toString(16);
-
-        if (hex.length < 2) hex = hex.concat("0");
-
-        return hex;
-    };
-
-    return `#${fn(r)}${fn(g)}${fn(b)}`;
-}
-
-export { convertHSLToRGB, convertRGBToHexadecimal, generateRandomHSLColor };
+export { checkContrast, randomHSVcolor };

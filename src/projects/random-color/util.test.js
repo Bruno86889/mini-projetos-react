@@ -1,41 +1,36 @@
-import { describe, expect, it } from "vitest";
-import {
-    convertHSLToRGB,
-    convertRGBToHexadecimal,
-    generateRandomHSLColor,
-} from "./util";
+import { describe, expect, it, test } from "vitest";
+import { checkContrast, randomHSVcolor } from "./util";
 
-describe("Random color utilities", () => {
-    it("should generate a random hsl color on each function call", () => {
-        const firstCall = generateRandomHSLColor();
-        const secondCall = generateRandomHSLColor();
+describe("Utilities", () => {
+    test("should generate a object", () => {
+        const hsv = randomHSVcolor();
+        const { h, s, v } = hsv;
 
-        expect(firstCall).not.toEqual(secondCall);
+        expect(h).not.toBeUndefined();
+        expect(s).not.toBeUndefined();
+        expect(v).not.toBeUndefined();
     });
 
-    // color from https://www.w3schools.com/colors/colors_converter.asp
-    const blueExampleColor = {
-        hex: "#00bfff",
-        hsl: {
-            h: 195,
-            s: 100,
-            l: 50,
-        },
-        rgb: {
-            r: 0,
-            g: 191,
-            b: 255,
-        },
-    };
+    describe("check the color contrast", () => {
+        const BLACK = "#000";
+        const WHITE = "#FFF";
 
-    it("should convert a hsl color object to rgb color object", () => {
-        const blueRGB = convertHSLToRGB(blueExampleColor.hsl);
-        expect(blueRGB).toEqual(blueExampleColor.rgb);
-    });
+        it("should return BLACK when hue is greatter or equal to 50 and lower or equal to 200", () => {
+            expect(checkContrast({ h: 50, v: 100 })).toBe(BLACK);
+            expect(checkContrast({ h: 100, v: 100 })).toBe(BLACK);
+            expect(checkContrast({ h: 200, v: 100 })).toBe(BLACK);
+        });
 
-    it("should convert a rgb object to hexadecimal 6 digits color string", () => {
-        expect(convertRGBToHexadecimal(blueExampleColor.rgb)).toBe(
-            blueExampleColor.hex
-        );
+        it("should return WHITE if value lower or equal than 70", () => {
+            expect(checkContrast({ h: 60, v: 20 })).toBe(WHITE);
+            expect(checkContrast({ h: 100, v: 70 })).toBe(WHITE);
+            expect(checkContrast({ h: 200, v: 50 })).toBe(WHITE);
+        });
+
+        it("should return WHITE otherwise", () => {
+            expect(checkContrast({ h: 10 })).toBe(WHITE);
+            expect(checkContrast({ h: 250 })).toBe(WHITE);
+            expect(checkContrast({ h: 360 })).toBe(WHITE);
+        });
     });
 });
