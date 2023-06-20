@@ -1,6 +1,3 @@
-@use "../variables/font";
-@use "../variables/colors";
-
 * {
     margin: 0;
     padding: 0;
@@ -8,23 +5,13 @@
     box-sizing: border-box;
 }
 
-:root {
-    font-size: font.$regular;
-    font-family: "Inter", "Ubuntu", sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
+html {
+    height: 100%;
 }
 
-html,
 body {
     width: 100%;
-    min-height: 100vh;
-    background: colors.$neutral-dark;
-    color: colors.$neutral-light;
+    min-height: 100%;
 }
 
 ol,

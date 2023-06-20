@@ -1,2 +1,20 @@
+@use "./variables/font";
+@use "./variables/colors";
 @use "base/reset.scss";
 @use "components/button.scss";
+
+body {
+    display: grid;
+}
+
+html {
+    color: colors.$neutral-light;
+    font-size: font.$regular;
+    font-family: "Inter", "Ubuntu", sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+}
