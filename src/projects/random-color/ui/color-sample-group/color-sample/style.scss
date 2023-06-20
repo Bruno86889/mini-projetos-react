@@ -1,0 +1,54 @@
+@use "/src/style/utilities/mixins.scss";
+
+.ColorSample {
+    $transition-time: 500ms;
+    $transition: background-color $transition-time, color $transition-time;
+
+    @include mixins.flexbox($items: center);
+    transition: $transition;
+
+    &__hex {
+        margin: auto;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 8px;
+        border: none;
+        transition: $transition;
+    }
+
+    &__btn {
+        aspect-ratio: 1/1;
+        font-size: 1.5rem;
+        border: none;
+        transition: $transition;
+        margin-right: 16px;
+    }
+
+    @media screen and (min-width: 600px) {
+        & {
+            flex-direction: column;
+            justify-content: space-between;
+
+            &__hex {
+                margin: auto;
+                font-size: 16pt;
+                height: 32px;
+                flex-grow: initial;
+                cursor: pointer;
+            }
+
+            &__btn {
+                visibility: hidden;
+                cursor: pointer;
+                margin-bottom: 16px;
+            }
+
+            &:hover,
+            &:focus-within {
+                button {
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}

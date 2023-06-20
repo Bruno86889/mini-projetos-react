@@ -1,120 +1,97 @@
-import {
-    faClipboard,
-    faClipboardCheck,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { hsvToRGB, rgbToHex } from "@/util/colors";
+import { useCallback, useEffect, useState } from "react";
 import "./style.scss";
-import {
-    convertHSLToRGB,
-    convertRGBToHexadecimal,
-    generateRandomHSLColor,
-} from "./util";
+import ColorSampleGroup from "./ui/color-sample-group";
+import Toolbar from "./ui/toolbar";
+import { checkContrast, randomHSVcolor } from "./util";
 
-const BLACK = "#000000";
-const WHITE = "#ffffff";
+const NUMBER_OF_SAMPLES = 8;
 
-const initialValue = {
-    hex: BLACK,
-    rgb: "rgb(100%, 100%, 100%)",
-    hsl: "hsl(360deg, 100%, 100%)",
-    contrast: WHITE,
+const generateColors = () => {
+    const hsv = randomHSVcolor();
+    const rgb = hsvToRGB(hsv);
+    const hex = rgbToHex(rgb);
+
+    const contrast = checkContrast(hsv);
+
+    return { color: hex, contrast };
 };
 
-async function copyToTheKeyboard(text) {
-    await navigator.clipboard.writeText(text);
-}
+const getInitialState = () => {
+    let colors = [];
 
-function generateColors() {
-    const { h, s, l } = generateRandomHSLColor();
-    const { r, g, b } = convertHSLToRGB({ h, s, l });
-    const hex = convertRGBToHexadecimal({ r, g, b });
+    for (let i = 1; i <= NUMBER_OF_SAMPLES; i++) {
+        const { color, contrast } = generateColors();
+        const newColor = {
+            position: i,
+            color,
+            contrast,
+            isLocked: false,
+        };
 
-    let contrast = WHITE;
+        colors.push(newColor);
+    }
 
-    if ((h > 40 && h < 200) || l >= 70 || s >= 70) contrast = BLACK;
-
-    return {
-        hex,
-        contrast,
-        rgb: `rgb(${r}%, ${g}%, ${b}%)`,
-        hsl: `hsl(${h}deg, ${s}%, ${l}%)`,
-    };
-}
+    return colors;
+};
 
 export default function RandomColor() {
-    const [color, setColor] = useState(initialValue);
+    const [sampleColors, setSampleColors] = useState(getInitialState);
+    const [copyIndex, setCopyIndex] = useState(null);
 
-    const updateColors = () => setColor(generateColors());
+    const handleUpdateColors = useCallback(() => {
+        setSampleColors((oldSamples) => {
+            return oldSamples?.reduce((acc, colorData) => {
+                if (colorData.isLocked === true) return [...acc, colorData];
 
-    return (
-        <div className="random-color" style={{ background: color.hex }}>
-            <div className="sample_group">
-                <ColorSample
-                    label={"hex"}
-                    text={color.hex}
-                    color={color.contrast}
-                    onCopy={copyToTheKeyboard}
-                />
-                <ColorSample
-                    label={"rgb"}
-                    text={color.rgb}
-                    color={color.contrast}
-                    onCopy={copyToTheKeyboard}
-                />
-                <ColorSample
-                    label={"hsl"}
-                    text={color.hsl}
-                    color={color.contrast}
-                    onCopy={copyToTheKeyboard}
-                />
-            </div>
-            <button
-                title="Gera uma cor aleatória."
-                style={{ borderColor: color.contrast, color: color.contrast }}
-                onClick={updateColors}
-                className="btn random-color__btn"
-            >
-                Gerar cor aleatória
-            </button>
-        </div>
-    );
-}
+                const { color, contrast } = generateColors();
+                const newColor = {
+                    ...colorData,
+                    color,
+                    contrast,
+                    isLocked: false,
+                };
+                return [...acc, newColor];
+            }, []);
+        });
+    }, []);
 
-function ColorSample({ label, text, color, onCopy }) {
-    const [isCopied, setIsCopied] = useState(false);
+    const handleLock = (position) => {
+        setSampleColors((oldSamples) => {
+            return oldSamples.reduce((acc, color) => {
+                if (color.position !== position) return [...acc, color];
 
-    const handleCopy = () => {
-        onCopy?.(text).then(() => {
-            setIsCopied(true);
+                const newSamples = { ...color, isLocked: !color.isLocked };
+                return [...acc, newSamples];
+            }, []);
         });
     };
 
-    useEffect(() => {
-        if (!isCopied) return;
+    const handleCopy = async (position, text) => {
+        await navigator.clipboard.writeText(text?.toUpperCase());
+        setCopyIndex(position);
+    };
 
-        setTimeout(() => {
-            setIsCopied(false);
-        }, 1000);
-    }, [isCopied]);
+    // reset the index after copy
+    useEffect(() => {
+        if (!copyIndex) return;
+
+        const timerId = setTimeout(() => setCopyIndex(null), 1000);
+
+        return () => {
+            clearTimeout(timerId);
+        };
+    }, [copyIndex]);
 
     return (
-        <div className="color_channel" style={{ color, borderColor: color }}>
-            <div className="color">
-                <span>{label}</span>
-                <p>{text}</p>
-            </div>
-
-            <button
-                title="Copiar"
-                className="btn btn--icon-only"
-                style={{ color, borderColor: color }}
-                onClick={handleCopy}
-            >
-                <FontAwesomeIcon
-                    icon={isCopied ? faClipboardCheck : faClipboard}
-                />
-            </button>
+        <div className="RandomColor">
+            <Toolbar onNewColors={handleUpdateColors} />
+            <ColorSampleGroup
+                activeIndex={copyIndex}
+                samples={sampleColors}
+                onCopy={handleCopy}
+                onLock={handleLock}
+            />
         </div>
     );
 }

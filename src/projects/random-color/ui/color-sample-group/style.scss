@@ -1,0 +1,11 @@
+.RandomColor__sampleGroup {
+    display: grid;
+    grid-template-rows: repeat(auto-fit, 1fr);
+
+    @media screen and (min-width: 600px) {
+        & {
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto;
+        }
+    }
+}
