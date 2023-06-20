@@ -4,10 +4,10 @@ Série de pequenos projetos desenvolvidos com ReactJs para testar meus conhecime
 
 # Projetos
 - [x] Gerador de cor aleatória  [código](/src/projects/random-color)
-- [ ] Calculadora
+- [x] Calculadora [código](/src/projects/calculadora)
 - [ ] Piano
 - [ ] Jogo da Velha
-- [ ] Color picker
+- [x] Color picker [código](/src/projects/color-picker)
 - [ ] Carousel
 - [ ] Mini Todo App
 - [ ] Timer
