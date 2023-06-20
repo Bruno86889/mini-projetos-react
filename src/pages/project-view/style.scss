@@ -1,6 +1,10 @@
+@use "/src/style/variables/colors";
+
 .project-view {
+    height: 100%;
     width: 100%;
-    min-height: 100vh;
+
     display: grid;
     grid-template-columns: 1fr;
+    background-color: colors.$gray-200;
 }

@@ -5,21 +5,19 @@ import "./style.scss";
 
 export default function HomePage() {
     return (
-        <main>
-            <section className="projects">
-                <h1>Mini Projetos React</h1>
-                <ul className="project-list">
-                    {projects.map((project, key) => {
-                        return (
-                            <ProjectCard
-                                key={key}
-                                {...project}
-                                path={`${BASE_PROJECT_ROUTE}/${project.route.path}`}
-                            />
-                        );
-                    })}
-                </ul>
-            </section>
-        </main>
+        <section className="projects">
+            <h1>Mini Projetos React</h1>
+            <ul className="project-list">
+                {projects.map((project, key) => {
+                    return (
+                        <ProjectCard
+                            key={key}
+                            {...project}
+                            path={`${BASE_PROJECT_ROUTE}/${project.route.path}`}
+                        />
+                    );
+                })}
+            </ul>
+        </section>
     );
 }
