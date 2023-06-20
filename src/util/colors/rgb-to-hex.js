@@ -1,4 +1,4 @@
-export default function rgbToHex({ r, g, b }) {
+export default function rgbToHex({ r, g, b }, isToOutputToCss = true) {
     const fn = (color) => {
         let hex = color.toString(16);
 
@@ -7,5 +7,6 @@ export default function rgbToHex({ r, g, b }) {
         return hex;
     };
 
-    return `${fn(r)}${fn(g)}${fn(b)}`;
+    const hexadecimalColor = `${fn(r)}${fn(g)}${fn(b)}`;
+    return isToOutputToCss ? "#" + hexadecimalColor : hexadecimalColor;
 }

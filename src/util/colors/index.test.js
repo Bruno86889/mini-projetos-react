@@ -3,7 +3,7 @@ import { hexToRGB, hslToRGB, hsvToRGB, rgbToHSL, rgbToHSV, rgbToHex } from ".";
 
 describe("Color utilities", () => {
     const blueExampleColor = {
-        hex: "00bfff",
+        hex: "#00bfff",
         hsl: {
             h: 195,
             s: 100,
@@ -37,6 +37,10 @@ describe("Color utilities", () => {
     it("should convert hex color to rgb", () => {
         expect(hexToRGB(hex)).toEqual(rgb);
     });
+    it("should convert hex color to rgb if the hex color starts with '#'", () => {
+        expect(hexToRGB(hex)).toEqual(rgb);
+    });
+
     it("should convert hsl color to rgb", () => {
         expect(hslToRGB(hsl)).toEqual(rgb);
     });
